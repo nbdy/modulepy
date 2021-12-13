@@ -13,9 +13,15 @@ pip3 install git+https://github.com/nbdy/modulepy
 ## features
 
 - [X] module baseline
-- [X] ipc
-- [X] module dependency resolution
-- [X] one-line module loading
+- [X] module loader
+  - [X] one-line module loading
+  - [X] one-line directory loading
+- [X] module manager
+  - [X] add module
+  - [X] remove module
+  - [X] reload module directory
+  - [X] module dependency resolution
+  - [X] ipc
 
 ## usage
 
