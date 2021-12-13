@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from multiprocessing import Process, Queue
 from dataclasses import dataclass, asdict
 from time import sleep
@@ -78,6 +80,7 @@ class ModuleBase(Process):
             pass
 
     def stop(self):
+        print(f"{self.name} is stopping")
         self.do_run = False
 
     def enqueue(self, data):

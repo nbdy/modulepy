@@ -19,5 +19,8 @@ if __name__ == '__main__':
     print(mm.get_module_count())
     mm.start()
     sleep(10)
+    mm.remove_module("InlineModule")
+    sleep(3)
+    print(mm.get_module_count())
     mm.stop()
     mm.join()

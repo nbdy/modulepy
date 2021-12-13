@@ -25,6 +25,15 @@ class ModuleManager(ModuleBase):
         self.modules[module.information.name] = module
         self.map_dependencies(module)
 
+    def remove_module(self, name: str, version: ModuleVersion = None) -> bool:
+        r = False
+        if name in self.modules.keys() and version is None or self.modules[name].version == version:
+            self.modules[name].stop()
+            self.modules[name].terminate()
+            del self.modules[name]
+            r = True
+        return r
+
     def reload(self):
         for module in ModuleLoader.load_modules_in_directory(self.module_directory_path):
             m = module()
