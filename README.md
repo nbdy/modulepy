@@ -2,6 +2,14 @@
 
 easily build modular applications
 
+## installation
+
+```shell
+pip3 install modulepy
+# or
+pip3 install git+https://github.com/nbdy/modulepy
+```
+
 ## features
 
 - [X] module baseline
