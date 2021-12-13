@@ -10,7 +10,6 @@ setup(
     author_email="pascal@eberlein.io",
     url="https://github.com/nbdy/modulepy",
     classifiers=[
-        'Development Status :: 3',
         'Intended Audience :: Developers',
         'Topic :: Software Development :: Build Tools',
         'License :: OSI Approved :: MIT License',
