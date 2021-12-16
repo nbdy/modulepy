@@ -23,4 +23,7 @@ if __name__ == '__main__':
     sleep(3)
     print(mm.get_module_count())
     mm.stop()
-    mm.join()
+    try:
+        mm.join()
+    except KeyboardInterrupt:
+        pass

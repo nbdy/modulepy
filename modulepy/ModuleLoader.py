@@ -1,5 +1,5 @@
 from os import listdir
-from os.path import isfile, basename, join
+from os.path import isfile, basename, join, isdir
 from importlib import import_module
 from typing import Optional, Any
 
@@ -16,6 +16,8 @@ class ModuleLoader(object):
     @staticmethod
     def load_modules_in_directory(module_directory_path: str) -> list[ModuleBase]:
         r = []
+        if not isdir(module_directory_path):
+            return r
         for module_path in listdir(module_directory_path):
             m = ModuleLoader.load_module_in_directory(join(module_directory_path, module_path))
             if m is not None:
