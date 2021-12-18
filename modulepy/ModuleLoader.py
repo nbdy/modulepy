@@ -1,20 +1,17 @@
 from os import listdir
 from os.path import isfile, basename, join, isdir
 from importlib import import_module
-from typing import Optional, Any
-
-from modulepy.ModuleBase import ModuleBase
 
 
 class ModuleLoader(object):
     @staticmethod
-    def load_module_in_directory(module_path: str) -> Optional[Any]:
+    def load_module_in_directory(module_path: str):
         if not isfile(module_path) or not module_path.endswith(".py"):
             return None
         return getattr(import_module(module_path.replace("/", ".").replace(".py", "")), basename(module_path)[:-3])
 
     @staticmethod
-    def load_modules_in_directory(module_directory_path: str) -> list[ModuleBase]:
+    def load_modules_in_directory(module_directory_path: str) -> list:
         r = []
         if not isdir(module_directory_path):
             return r

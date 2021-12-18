@@ -1,7 +1,6 @@
-from __future__ import annotations
-
-from multiprocessing import Process, Queue
-from dataclasses import dataclass, asdict
+from multiprocessing import Process, Queue, Event
+from multiprocessing.synchronize import Event as EventType
+from dataclasses import dataclass
 from time import sleep
 
 
@@ -32,7 +31,7 @@ class SharedData:
 
 class ModuleBase(Process):
     daemon = True
-    do_run: bool = True
+    do_run: EventType = Event()
     information = ModuleInformation("ModuleBase", ModuleVersion(1, 0, 0))
     dependencies: list[ModuleInformation] = []
 
@@ -42,6 +41,7 @@ class ModuleBase(Process):
     def __init__(self):
         super().__init__()
         self.name = str(self.information)
+        self.do_run.set()
 
     def __call__(self, *args, **kwargs):
         return eval(f"{self.__class__.__name__}()")
@@ -66,23 +66,19 @@ class ModuleBase(Process):
             self.process_input_data(data)
 
     def loop(self):
-        while self.do_run:
+        while self.do_run.is_set():
             self.process_input_queue()
             self.work()
 
     def run(self):
-        try:
-            self.on_start()
-            self.loop()
-            self.on_stop()
-        except Exception as e:
-            print(e)
-            pass
+        self.on_start()
+        self.loop()
+        self.on_stop()
 
     def stop(self):
         print(f"{self.name} is stopping")
-        self.do_run = False
+        self.do_run.clear()
 
-    def enqueue(self, data):
+    def enqueue(self, data: dict):
         if self.output_queue is not None:
-            self.output_queue.put(SharedData(self.information, asdict(data)))
+            self.output_queue.put(SharedData(self.information, data))

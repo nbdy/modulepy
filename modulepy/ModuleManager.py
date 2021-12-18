@@ -14,14 +14,14 @@ class ModuleManager(ModuleBase):
                 return module
         return None
 
-    def map_dependencies(self, module: ModuleBase):
+    def map_dependencies(self, module):
         for dependency in module.dependencies:
             if dependency.name in self.dependency_map.keys():
                 self.dependency_map[dependency.name].append(module.information.name)
             else:
                 self.dependency_map[dependency.name] = [module.information.name]
 
-    def add_module(self, module: ModuleBase):
+    def add_module(self, module):
         self.modules[module.information.name] = module
         self.map_dependencies(module)
 
@@ -43,10 +43,11 @@ class ModuleManager(ModuleBase):
         return len(self.modules.keys())
 
     def process_output_data(self, data: SharedData):
-        for dependent in self.dependency_map[data.origin.name]:
-            self.modules[dependent].input_queue.put(data)
+        if data.origin.name in self.dependency_map.keys():
+            for dependent in self.dependency_map[data.origin.name]:
+                self.modules[dependent].input_queue.put(data)
 
-    def process_output_queue(self, module: ModuleBase):
+    def process_output_queue(self, module):
         while not module.output_queue.empty():
             self.process_output_data(module.output_queue.get())
 
@@ -61,13 +62,14 @@ class ModuleManager(ModuleBase):
     def start(self):
         for module in self.modules.values():
             module.start()
+        self.do_run = True
         super(ModuleManager, self).start()
 
     def stop(self):
         for module in self.modules.values():
             module.stop()
+        self.do_run = False
 
     def join(self, **kwargs):
         for module in self.modules.values():
             module.join()
-        super().join(**kwargs)
