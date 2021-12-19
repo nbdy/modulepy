@@ -39,7 +39,7 @@ class ModuleBase(Process):
     output_queue: Queue = Queue()
 
     def __init__(self):
-        super().__init__()
+        Process.__init__(self)
         self.name = str(self.information)
         self.do_run.set()
 

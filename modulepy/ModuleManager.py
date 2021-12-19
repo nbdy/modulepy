@@ -7,6 +7,7 @@ class ModuleManager(ModuleBase):
     module_directory_path: str = None
     modules: dict = {}
     dependency_map: dict = {}
+    reload_hooks: list = []
 
     def get_module(self, name: str, version: ModuleVersion = None):
         for module_name, module in self.modules.items():
@@ -38,6 +39,8 @@ class ModuleManager(ModuleBase):
         for module in ModuleLoader.load_modules_in_directory(self.module_directory_path):
             m = module()
             self.add_module(m)
+        for hook in self.reload_hooks:
+            hook(self.modules)
 
     def get_module_count(self):
         return len(self.modules.keys())
@@ -62,13 +65,13 @@ class ModuleManager(ModuleBase):
     def start(self):
         for module in self.modules.values():
             module.start()
-        self.do_run = True
+        self.do_run.set()
         super(ModuleManager, self).start()
 
     def stop(self):
         for module in self.modules.values():
             module.stop()
-        self.do_run = False
+        self.do_run.clear()
 
     def join(self, **kwargs):
         for module in self.modules.values():

@@ -8,7 +8,12 @@ class ModuleLoader(object):
     def load_module_in_directory(module_path: str):
         if not isfile(module_path) or not module_path.endswith(".py"):
             return None
-        return getattr(import_module(module_path.replace("/", ".").replace(".py", "")), basename(module_path)[:-3])
+        try:
+            return getattr(import_module(module_path.replace("/", ".").replace(".py", "")), basename(module_path)[:-3])
+        except Exception as e:
+            print(f"Could not load module: {module_path}")
+            print(f"Exception: {e}")
+            return None
 
     @staticmethod
     def load_modules_in_directory(module_directory_path: str) -> list:
