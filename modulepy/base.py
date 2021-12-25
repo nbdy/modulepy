@@ -1,4 +1,5 @@
-from multiprocessing import Process, Queue, Event
+from multiprocessing import Queue, Event, Process
+from threading import Thread
 from multiprocessing.synchronize import Event as EventType
 from dataclasses import dataclass
 from time import sleep
@@ -29,8 +30,7 @@ class SharedData:
     data: dict
 
 
-class ModuleBase(Process):
-    daemon = True
+class ModuleBase(object):
     do_run: EventType = Event()
     information = ModuleInformation("ModuleBase", ModuleVersion(1, 0, 0))
     dependencies: list[ModuleInformation] = []
@@ -38,8 +38,9 @@ class ModuleBase(Process):
     input_queue: Queue = Queue()
     output_queue: Queue = Queue()
 
+    error: str = None
+
     def __init__(self):
-        Process.__init__(self)
         self.name = str(self.information)
         self.do_run.set()
 
@@ -51,6 +52,11 @@ class ModuleBase(Process):
 
     def on_stop(self):
         pass
+
+    def on_exception(self, exception: Exception):
+        self.error = str(exception)
+        print(f"Caught exception: {exception}")
+        self.stop()
 
     def work(self):
         sleep(0.1)
@@ -68,12 +74,18 @@ class ModuleBase(Process):
     def loop(self):
         while self.do_run.is_set():
             self.process_input_queue()
-            self.work()
+            try:
+                self.work()
+            except Exception as e:
+                self.on_exception(e)
 
-    def run(self):
+    def _run(self):
         self.on_start()
         self.loop()
         self.on_stop()
+
+    def run(self):
+        self._run()
 
     def stop(self):
         print(f"{self.name} is stopping")
@@ -82,3 +94,25 @@ class ModuleBase(Process):
     def enqueue(self, data: dict):
         if self.output_queue is not None:
             self.output_queue.put(SharedData(self.information, data))
+
+
+class ProcessModule(ModuleBase, Process):
+    daemon = True
+
+    def __init__(self):
+        Process.__init__(self)
+        ModuleBase.__init__(self)
+
+    def run(self) -> None:
+        self._run()
+
+
+class ThreadModule(ModuleBase, Thread):
+    daemon = True
+
+    def __init__(self):
+        Thread.__init__(self)
+        ModuleBase.__init__(self)
+
+    def run(self):
+        self._run()

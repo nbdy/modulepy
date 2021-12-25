@@ -2,7 +2,7 @@ from gps import gps, WATCH_ENABLE
 from time import sleep
 from dataclasses import dataclass
 
-from modulepy.ModuleBase import ModuleBase, ModuleInformation, ModuleVersion
+from modulepy.base import ThreadModule, ModuleInformation, ModuleVersion
 
 
 @dataclass
@@ -16,7 +16,7 @@ class GPSData:
     timestamp: float
 
 
-class GPS(ModuleBase):
+class GPS(ThreadModule):
     information = ModuleInformation("GPS", ModuleVersion(1, 0, 0))
     client: gps = None
     position = None
@@ -40,5 +40,5 @@ class GPS(ModuleBase):
         self.gps_data.course = self.client.fix.track
         self.gps_data.satellites = self.client.satellites
         self.gps_data.timestamp = self.client.utc
-        self.enqueue(self.gps_data)
+        self.enqueue(self.gps_data.__dict__)
         sleep(1)

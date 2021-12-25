@@ -1,8 +1,8 @@
-from modulepy import ModuleLoader, ModuleBase, ModuleVersion, ModuleInformation, SharedData
+from modulepy import ModuleLoader, ProcessModule, ModuleVersion, ModuleInformation, SharedData
 from time import sleep
 
 
-class ModuleManager(ModuleBase):
+class ModuleManager(ProcessModule):
     information = ModuleInformation("ModuleManager", ModuleVersion(1, 0, 0))
     module_directory_path: str = None
     modules: dict = {}

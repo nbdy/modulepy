@@ -1,33 +1,3 @@
-# modulepy
-
-easily build modular applications
-
-## installation
-
-```shell
-pip3 install modulepy
-# or
-pip3 install git+https://github.com/nbdy/modulepy
-```
-
-## features
-
-- [X] module baseline
-  - [X] thread based module
-  - [X] process based module
-- [X] module loader
-  - [X] one-line module loading
-  - [X] one-line directory loading
-- [X] module manager
-  - [X] add module
-  - [X] remove module
-  - [X] reload module directory
-  - [X] module dependency resolution
-  - [X] ipc
-
-## usage
-
-```python
 from modulepy import ThreadModule, ProcessModule, ModuleInformation, ModuleVersion, SharedData, ModuleManager
 
 
@@ -55,5 +25,3 @@ if __name__ == '__main__':
     manager.add_module(ModuleB())
     manager.start()
     manager.join()
-
-```

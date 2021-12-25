@@ -1,5 +1,5 @@
-from modulepy.ModuleBase import ModuleBase, ModuleInformation, ModuleVersion, SharedData
-from modulepy.ModuleLoader import ModuleLoader
-from modulepy.ModuleManager import ModuleManager
+from modulepy.base import ModuleBase, ModuleInformation, ModuleVersion, SharedData, ProcessModule, ThreadModule
+from modulepy.loader import ModuleLoader
 
-__all__ = ['ModuleBase', 'ModuleLoader', 'ModuleManager', 'ModuleInformation', 'ModuleVersion', 'SharedData']
+__all__ = ['ModuleBase', 'ModuleLoader', 'ModuleInformation', 'ModuleVersion', 'SharedData',
+           'ProcessModule', 'ThreadModule']

@@ -1,7 +1,7 @@
-from modulepy.ModuleBase import ModuleBase, ModuleInformation, ModuleVersion, SharedData
+from modulepy.base import ThreadModule, ModuleInformation, ModuleVersion, SharedData
 
 
-class GPSDataUser(ModuleBase):
+class GPSDataUser(ThreadModule):
     information = ModuleInformation("GPSDataUser", ModuleVersion(1, 0, 0))
     dependencies = [
         ModuleInformation("GPS", ModuleVersion(1, 0, 0))

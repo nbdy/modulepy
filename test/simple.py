@@ -1,8 +1,22 @@
-from modulepy import ModuleLoader
+from modulepy import ModuleLoader, ModuleBase
+from time import sleep
+
+
+def test_module(module: ModuleBase, seconds: int = 2):
+    print(f"Testing: {module.information}")
+    module.start()
+    sleep(seconds)
+    module.stop()
+
+
+def test_process_module():
+    test_module(ModuleLoader.load_module_in_directory("test_modules/TestProcessModule.py")())
+
+
+def test_thread_module():
+    test_module(ModuleLoader.load_module_in_directory("test_modules/TestThreadModule.py")())
 
 
 if __name__ == '__main__':
-    testModule = ModuleLoader.load_module_in_directory("test_modules/TestModule.py")()
-    print(testModule.information)
-    testModule.start()
-    testModule.join()
+    test_process_module()
+    test_thread_module()

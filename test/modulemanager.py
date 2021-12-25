@@ -1,4 +1,5 @@
-from modulepy import ModuleManager, ModuleBase, ModuleInformation, ModuleVersion
+from modulepy import ModuleBase, ModuleInformation, ModuleVersion
+from modulepy.manager import ModuleManager
 from time import sleep
 
 
