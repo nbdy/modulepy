@@ -58,8 +58,7 @@ class ModuleBase(Process):
     error: str = None
 
     def __init__(self):
-        self.name = str(self.information)
-        Process.__init__(self, name=self.name)
+        Process.__init__(self, name=str(self.information))
 
     def __call__(self, *args, **kwargs):
         return eval(f"{self.__class__.__name__}()")
@@ -71,43 +70,22 @@ class ModuleBase(Process):
         pass
 
     def work(self):
-        sleep(0.1)
+        self.sleep(0.1)
 
     def process_input_data(self, data: SharedData):
         pass
 
-    def on_action_stop(self):
-        self.stop()
-
-    def on_action_start(self):
-        self.run()
-
-    def wait_until_stopped(self):
-        while self.is_alive():
-            sleep(0.1)
-
-    def on_action_restart(self):
-        self.stop()
-        self.wait_until_stopped()
-        self.run()
+    def sleep(self, seconds: float):
+        try:
+            sleep(seconds)
+        except KeyboardInterrupt:
+            self.stop()
 
     def on_action_log(self, message: str):
         print(f"{self.name}: {message}")
 
-    def process_system_data(self, data: SharedData):
-        if data.origin.name == "ModuleManager":
-            if data.data["action"] == "stop":
-                self.on_action_stop()
-            elif data.data["action"] == "start":
-                self.on_action_start()
-            elif data.data["action"] == "restart":
-                self.on_action_restart()
-            elif data.data["action"] == "log":
-                self.on_action_log(data.data["message"])
-
     def loop(self):
         while self.do_run:
-            self.queue.process_output(self.process_system_data)
             self.work()
 
     def _run(self):
