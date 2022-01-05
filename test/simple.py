@@ -1,8 +1,8 @@
-from modulepy import ModuleLoader, ModuleBase
+from modulepy import ModuleLoader
 from time import sleep
 
 
-def test_module(module: ModuleBase, seconds: int = 2):
+def test_module(module, seconds: int = 2):
     print(f"Testing: {module.information}")
     module.start()
     sleep(seconds)

@@ -1,8 +1,8 @@
-from modulepy import ThreadModule, ModuleInformation, ModuleVersion
+from modulepy import ModuleBase, ModuleInformation, ModuleVersion
 from time import sleep
 
 
-class TestThreadModule(ThreadModule):
+class TestThreadModule(ModuleBase):
     information = ModuleInformation("TestThreadModule", ModuleVersion(1, 0, 0))
     c = 0
 

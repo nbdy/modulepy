@@ -4,7 +4,7 @@ from setuptools import setup, find_packages
 setup(
     long_description=open("README.md", "r").read(),
     name="modulepy",
-    version="0.8",
+    version="0.10",
     description="module framework",
     author="Pascal Eberlein",
     author_email="pascal@eberlein.io",

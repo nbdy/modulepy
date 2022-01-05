@@ -28,7 +28,8 @@ pip3 install git+https://github.com/nbdy/modulepy
 ## usage
 
 ```python
-from modulepy import ThreadModule, ProcessModule, ModuleInformation, ModuleVersion, SharedData, ModuleManager
+from modulepy import ThreadModule, ProcessModule, ModuleInformation, ModuleVersion, SharedData
+from modulepy.manager import ModuleManager
 
 
 class ModuleA(ThreadModule):
@@ -36,7 +37,7 @@ class ModuleA(ThreadModule):
     dependencies = [ModuleInformation("B", ModuleVersion(1, 0, 0))]
 
     def work(self):
-        self.enqueue({"A": 0})
+        self.data_enqueue({"A": 0})
 
     def process_input_data(self, data: SharedData):
         print(data)
@@ -46,7 +47,7 @@ class ModuleB(ProcessModule):
     information = ModuleInformation("B", ModuleVersion(1, 0, 0))
 
     def work(self):
-        self.enqueue({"B": 1})
+        self.data_enqueue({"B": 1})
 
 
 if __name__ == '__main__':

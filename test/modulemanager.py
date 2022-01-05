@@ -19,7 +19,7 @@ if __name__ == '__main__':
     mm.add_module(InlineModule())
     print(mm.get_module_count())
     mm.start()
-    sleep(10)
+    sleep(3)
     mm.remove_module("InlineModule")
     sleep(3)
     print(mm.get_module_count())

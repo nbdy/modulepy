@@ -1,8 +1,8 @@
-from modulepy import ProcessModule, ModuleInformation, ModuleVersion
+from modulepy import ModuleBase, ModuleInformation, ModuleVersion
 from time import sleep
 
 
-class TestProcessModule(ProcessModule):
+class TestProcessModule(ModuleBase):
     information = ModuleInformation("TestProcessModule", ModuleVersion(1, 0, 0))
     c = 0
 
