@@ -8,7 +8,7 @@ from modulepy.Base import Base, Information, Version
 class TestModuleOne(Base):
     information = Information("ModuleOne", Version(0, 0, 1))
 
-    def loop(self):
+    def work(self):
         value = self.data.get("value")
         print("ModuleOne", value)
         if value == "first":
@@ -21,7 +21,7 @@ class TestModuleTwo(Base):
 
     dependencies = [Information("ModuleOne", Version(0, 0, 1))]
 
-    def loop(self):
+    def work(self):
         value = self.clients["ModuleOne"].get("value")
         print("ModuleTwo", value)
         if value == "second":

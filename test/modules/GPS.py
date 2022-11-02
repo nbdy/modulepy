@@ -26,7 +26,7 @@ class GPS(Base):
         if self.client:
             self.client.close()
 
-    def loop(self):
+    def work(self):
         if self.client:
             self.client.next()
             self.data.set("latitude", self.client.fix.latitude)

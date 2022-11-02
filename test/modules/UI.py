@@ -18,7 +18,7 @@ class UI(Base):
         log.debug("Closing window")
         close_window()
 
-    def loop(self):
+    def work(self):
         error = self.clients["GPS"].get("error")
 
         if error is None:

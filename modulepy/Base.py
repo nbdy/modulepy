@@ -39,8 +39,20 @@ class Base(Process):
     def on_stop(self):
         pass
 
-    def loop(self):
+    def work(self):
         sleep(0.2)
+
+    def loop(self):
+        try:
+            while True:
+                self.data.update()
+                if not self.data.get("do_run"):
+                    break
+
+                self.update_clients()
+                self.work()
+        except KeyboardInterrupt:
+            pass
 
     def run(self) -> None:
         """
@@ -55,18 +67,7 @@ class Base(Process):
         """
         self.init()
         self.on_start()
-
-        try:
-            while True:
-                self.data.update()
-                if not self.data.get("do_run"):
-                    break
-
-                self.update_clients()
-                self.loop()
-        except KeyboardInterrupt:
-            pass
-
+        self.loop()
         self.on_stop()
 
     def stop(self):
