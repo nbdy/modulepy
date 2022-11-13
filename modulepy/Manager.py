@@ -15,7 +15,6 @@ class Manager(Base):
 
     def __init__(self, module_directory: Path):
         Base.__init__(self)
-        log.debug("Initializing")
         self.data.set("module_directory", module_directory)
 
     def on_start(self):
@@ -26,9 +25,9 @@ class Manager(Base):
         self.unload_modules()
 
     def load_modules(self):
-        directory = self.data.get("module_directory")
-        log.debug(f"Loading modules from {directory}")
-        for module in Loader.load_modules_in_directory(directory):
+        directory: Path = self.data.get("module_directory")
+        log.debug(f"Loading modules from {directory.absolute().__str__()}")
+        for module in Loader.load_modules(directory):
             if not module.information.is_available(list(self.modules.keys())):
                 self.modules[module.information.name] = module()
                 log.debug(f"Loaded {module.information}")
