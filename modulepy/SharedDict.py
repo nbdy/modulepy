@@ -7,13 +7,16 @@ from modulepy import log
 class SharedDict(object):
     _data: dict = {}
 
-    def set(self, key: str, value):
+    def set(self, key, value):
         self._data[key] = value
 
-    def get(self, key: str, default=None):
+    def get(self, key, default=None):
         if key in self._data.keys():
             return self._data[key]
         return default
+
+    def keys(self):
+        return self._data.keys()
 
 
 class SharedMemoryDict(SharedMemory, SharedDict):
@@ -46,7 +49,7 @@ class LocalSharedDict(SharedMemoryDict):
     def __init__(self, name: str, size: int = 4096):
         SharedMemoryDict.__init__(self, name, size, True)
 
-    def set(self, key: str, value):
+    def set(self, key, value):
         SharedMemoryDict.set(self, key, value)
         data = dumps(self._data)
         self.buf[0:len(data)] = data
