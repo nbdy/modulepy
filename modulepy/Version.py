@@ -7,6 +7,11 @@ class Version:
     minor: int
     patch: int
 
+    def __init__(self, major: int = 1, minor: int = 0, patch: int = 0):
+        self.major = major
+        self.minor = minor
+        self.patch = patch
+
     def __str__(self):
         return f"{self.major}.{self.minor}.{self.patch}"
 
