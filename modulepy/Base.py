@@ -11,7 +11,7 @@ class Base(Process):
     dependencies: list[Information] = []
     clients: dict[str, RemoteSharedDict] = {}
     error: Exception = None
-    interval: int = 0.2
+    interval: int = 1
 
     data: LocalSharedDict = None
 
@@ -51,6 +51,7 @@ class Base(Process):
 
                 self.update_clients()
                 self.work()
+                sleep(self.interval)
         except KeyboardInterrupt:
             pass
 
